@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import ConfigParser
+from lib.config import Configuration
 from lib.db import DBConn
 from os import listdir
 from os.path import isfile, join
@@ -25,20 +25,15 @@ def convert_tstamp(timestamp):
 
 if __name__ == '__main__':
     # global configuration
-    try:
-        config = ConfigParser.RawConfigParser()
-        config.read(['config/defaults.conf'])
-        csvpath = config.get('CSV', 'path')
-        header = eval(config.get('CSV', 'header'))  # converted to dict - only contains interesting data block names
-        decsep = config.get('LANG', 'decimal_separator')
-        thsep = config.get('LANG', 'thousands_separator')
-        dbname = config.get('DB', 'name')
-    except Exception, e:
+    config = Configuration()
+    if config.ok:
+        csvpath = config.csvpath
+        header = config.header  # dict - only contains interesting data block names
+    else:
         print 'Error reading config file!'
-        print str(e)
         exit(1)
 
-    db = DBConn(dbname, decsep, thsep)
+    db = DBConn(config.dbname, config.decsep, config.thsep)
     flist = sorted(filelist(csvpath))  # older files before
     for csvfile in flist:
         # save data blocks in a dict using header as key
