@@ -35,3 +35,11 @@ CREATE TABLE sleep (
     resting_minutes INTEGER,  -- redudant, it should be sleeping_minutes + waking_minutes
     PRIMARY KEY (date_time)
 );
+
+DROP TABLE IF EXISTS resting_heartrate;
+CREATE TABLE resting_heartrate (
+    date_time DATETIME,
+    heartrate REAL,
+    PRIMARY KEY (date_time)
+);
+

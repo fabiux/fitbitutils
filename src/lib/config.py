@@ -33,3 +33,7 @@ class Configuration:
     @property
     def dbname(self):
         return None if self._cfg is None else self._cfg.get('DB', 'name')
+
+    @property
+    def htmlfile(self):
+        return None if self._cfg is None else self._cfg.get('HTML', 'filename')
